@@ -147,6 +147,9 @@ def fig_rolling_risk(R):
     _pct(a1)
     a2.plot(corr.index, corr, color=INK2, lw=1.4)
     a2.set_ylim(0, 1)
+    for ax in (a1, a2):
+        ax.xaxis.set_major_locator(matplotlib.dates.YearLocator(4))
+        ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter("%Y"))
     a2.set_title("Rolling 3-year correlation, DAX vs S&P 500")
     _save(fig, "rolling_risk")
 
