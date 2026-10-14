@@ -89,6 +89,38 @@ def cmd_all(args):
     cmd_site(args)
 
 
+def cmd_serve(args):
+    import functools
+    import http.server
+    import webbrowser
+
+    if not (C.PUBLIC_DIR / "index.html").exists():
+        cmd_site(args)
+    class Quiet(http.server.SimpleHTTPRequestHandler):
+        def log_message(self, *a):  # keep the console window readable
+            pass
+
+    handler = functools.partial(Quiet, directory=str(C.PUBLIC_DIR))
+    for port in range(args.port, args.port + 20):
+        try:
+            server = http.server.ThreadingHTTPServer(("127.0.0.1", port), handler)
+            break
+        except OSError:
+            continue
+    else:
+        sys.exit(f"no free port between {args.port} and {args.port + 19}")
+    url = f"http://localhost:{port}/"
+    _step(f"website running at {url}  (close this window or press Ctrl+C to stop)")
+    if not args.no_browser:
+        webbrowser.open(url)
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        server.server_close()
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(prog="daxquant", description=__doc__)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -99,8 +131,13 @@ def main(argv=None):
     sub.add_parser("site", help="build the website in public/")
     a = sub.add_parser("all", help="data + run + report + site")
     a.add_argument("--no-pdf", action="store_true")
+    s = sub.add_parser("serve", help="open the website in the browser")
+    s.add_argument("--port", type=int, default=8765)
+    s.add_argument("--no-browser", action="store_true")
     args = p.parse_args(argv)
-    {"data": cmd_data, "run": cmd_run, "report": cmd_report, "site": cmd_site, "all": cmd_all}[args.cmd](args)
+    commands = {"data": cmd_data, "run": cmd_run, "report": cmd_report, "site": cmd_site,
+                "all": cmd_all, "serve": cmd_serve}
+    commands[args.cmd](args)
 
 
 if __name__ == "__main__":

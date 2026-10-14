@@ -124,10 +124,10 @@ that window and must be a DAX member on the formation day. Higher values mean hi
 \text{Momentum 12-1} &= \textstyle\prod_{d=t-251}^{t-21}(1+r_{i,d})-1 &&\text{\citep{jegadeesh1993}}\\
 \text{Short-term reversal} &= -\Big(\textstyle\prod_{d=t-20}^{t}(1+r_{i,d})-1\Big) &&\text{\citep{jegadeesh1990}}\\
 \text{Low volatility} &= -\sigma_i\sqrt{252} &&\text{\citep{ang2006,blitz2007}}\\
-\text{Low beta} &= -\big(0.6\,\hat\beta_i + 0.4\big),\quad \hat\beta_i=\operatorname{cov}(r_i,r_{\text{DAX}})/\operatorname{var}(r_{\text{DAX}}) &&\text{\citep{frazzini2014}}\\
+\text{Low beta} &= -\big(0.6\,\hat\beta_i + 0.4\big) &&\text{\citep{frazzini2014}}\\
 \text{52-week high} &= P_{i,t}\,/\,\max_{d\in(t-252,t]} P_{i,d} &&\text{\citep{george2004}}
 \end{align*}
-The composite is the average of the five cross-sectional $z$-scores, each winsorised at $\pm3$. Its
+Here $\hat\beta_i=\operatorname{cov}(r_i,r_{\text{DAX}})/\operatorname{var}(r_{\text{DAX}})$ over the same window, shrunk towards 1. The composite is the average of the five cross-sectional $z$-scores, each winsorised at $\pm3$. Its
 weights are equal by construction and were not optimised.
 
 \paragraph{Portfolios.} Stocks are sorted into terciles each month (about 10 per leg with 30 members, 13

@@ -28,23 +28,30 @@ The numbers change with every update, so they live in the outputs rather than in
 
 ## Run it
 
-Requires [uv](https://docs.astral.sh/uv/).
+Requires [uv](https://docs.astral.sh/uv/). For the PDF also [Tectonic](https://tectonic-typesetting.github.io/)
+or `latexmk` (MiKTeX / TeX Live); without one, everything except the PDF still builds.
+
+**On Windows, double-click:**
+
+| File | What it does | Time |
+|---|---|---|
+| `Website_starten.bat` | Fetches the latest monthly update from GitHub (if nothing was changed locally) and opens the website | seconds |
+| `Alles_aktualisieren.bat` | Downloads fresh data, reruns the whole study, rebuilds figures, paper and website, then opens it | about 2 minutes |
+
+The website runs at `http://localhost:8765` until the console window is closed.
+
+**From a terminal:**
 
 ```bash
-uv sync
 uv run daxquant all      # download data, run the study, figures, paper, website
+uv run daxquant serve    # open the website in the browser
 uv run pytest            # 13 tests, including a look-ahead check
 ```
 
 Single steps: `daxquant data`, `daxquant run`, `daxquant report [--no-pdf]`, `daxquant site`.
-The PDF is compiled when `latexmk` (MiKTeX or TeX Live) or `tectonic` is installed; otherwise
-`report --no-pdf` skips it and GitHub Actions builds it.
 
-To look at the website locally:
-
-```bash
-uv run python -m http.server 8765 --directory public
-```
+A local update changes the tracked output files (`results/`, `report/`, `public/`). Either commit them,
+or discard them with `git checkout -- .` before pulling the next monthly update from GitHub.
 
 ## Automatic updates
 
