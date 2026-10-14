@@ -1,10 +1,19 @@
 # Factor Premia in the DAX
 
+[![Update research](https://github.com/Tristan-sketch/dax-quant-research/actions/workflows/update.yml/badge.svg)](https://github.com/Tristan-sketch/dax-quant-research/actions/workflows/update.yml)
+![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)
+![pandas](https://img.shields.io/badge/pandas-3-150458?logo=pandas&logoColor=white)
+![LaTeX](https://img.shields.io/badge/paper-LaTeX-008080?logo=latex&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A point-in-time study of five price-based equity factors inside the DAX, benchmarked against the DAX
 performance index and the S&P 500 (in euros). The project produces a LaTeX paper and a static website,
-and both rebuild themselves from raw data with one command.
+and both rebuild themselves from raw data every month.
 
-![Growth of the DAX, the S&P 500 and an equal-weight DAX portfolio](report/figures/index_growth.png)
+**Live website: [tristan-sketch.github.io/dax-quant-research](https://tristan-sketch.github.io/dax-quant-research/)**
+· **Paper: [PDF](https://tristan-sketch.github.io/dax-quant-research/report.pdf)**
+
+![Screenshot of the research website](docs/website.png)
 
 ## What makes it more than a backtest
 
@@ -20,9 +29,11 @@ and both rebuild themselves from raw data with one command.
 
 The numbers change with every update, so they live in the outputs rather than in this file:
 
-- `public/index.html`: the website with key figures, all charts and tables
-- `report/main.pdf`: the paper (built by GitHub Actions)
+- [the website](https://tristan-sketch.github.io/dax-quant-research/) (`public/`): key figures, all charts and tables
+- [the paper](https://tristan-sketch.github.io/dax-quant-research/report.pdf) (`report/main.pdf`)
 - `results/*.csv`: every statistic as machine-readable tables
+
+![Growth of the DAX, the S&P 500 and an equal-weight DAX portfolio](report/figures/index_growth.png)
 
 ![Long-short factor portfolios](report/figures/factor_long_short.png)
 
@@ -65,10 +76,8 @@ every table as an `\input` file, and every sentence whose meaning depends on the
 not, which factor is best) is generated from the results. An update therefore cannot leave stale text
 behind.
 
-**Hosting the website.** GitHub Pages for private repositories needs a paid GitHub plan. If you have
-one (or make the repository public), enable Pages with source "GitHub Actions" and set the repository
-variable `DEPLOY_PAGES` to `true`; the workflow then deploys `public/` on every run. Any static host
-(Netlify, Cloudflare Pages) also works by serving the `public/` folder.
+**Hosting.** The workflow deploys `public/` to GitHub Pages on every run (repository variable
+`DEPLOY_PAGES=true`, Pages source "GitHub Actions"). Any other static host works by serving `public/`.
 
 ## Project layout
 
@@ -108,3 +117,7 @@ estimate. Value and quality factors are not tested because point-in-time fundame
 available.
 
 This is research, not investment advice.
+
+## License
+
+Code under the [MIT License](LICENSE). Market data belongs to its providers (Yahoo Finance, FRED) and is not redistributed beyond the derived results.
