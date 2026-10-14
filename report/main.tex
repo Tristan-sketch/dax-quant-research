@@ -1,0 +1,245 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,longtable,array}
+\usepackage{graphicx}
+\usepackage[font=small,labelfont=bf,skip=4pt]{caption}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage[round]{natbib}
+\usepackage{adjustbox}
+
+\graphicspath{{figures/}}
+\input{generated/macros.tex}
+
+\newcommand{\fig}[3][\linewidth]{%
+  \begin{figure}[H]\centering\includegraphics[width=#1]{#2}\caption{#3}\label{fig:#2}\end{figure}}
+\newcommand{\tabfile}[3]{%
+  \begin{table}[H]\centering\caption{#2}\label{tab:#1}\small\begin{adjustbox}{max width=\linewidth}\input{generated/#1.tex}\end{adjustbox}\par\smallskip
+  \begin{minipage}{\linewidth}\footnotesize #3\end{minipage}\end{table}}
+
+\title{\textbf{Factor Premia in the DAX}\\[2pt]\large A point-in-time study of German large caps, benchmarked against the S\&P\,500}
+\author{Tristan Hartenstein}
+\date{Data through \DataDate{} \textperiodcentered{} Specification frozen \FreezeDate}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}\noindent
+I test five well-documented price-based equity factors (momentum, short-term reversal, low volatility,
+low beta and the 52-week high) and an equal-weight composite inside the DAX, from \FirstMonth{} to
+\LastMonth{} (\NMonths{} months). The universe is rebuilt day by day from the \NChanges{} documented index
+changes, so every portfolio only holds stocks that were in the index at the time.
+\FindBest{} \FindHolm{} \FindDSR{} \FindComposite{} \FindSurvivorship{}
+All numbers in this paper are produced by code and update automatically when new data arrives.
+\end{abstract}
+
+\section{Motivation}
+Factor studies on the DAX are easy to get wrong. The index has only 30 members until September 2021 and 40
+afterwards, so a few stocks drive every result. Free data contains only today's survivors, which turns
+the past into a story of winners. Finally, with enough variants, something always ``works''. This study
+addresses each problem directly:
+\begin{enumerate}
+  \item \textbf{Point-in-time universe.} Membership is reconstructed from the current constituent list and
+  every inclusion and exclusion since 2005. Coverage gaps from delisted companies are measured and
+  reported, not hidden (Section~\ref{sec:data}).
+  \item \textbf{Pre-specified design.} All factor definitions follow the original papers. Parameters are
+  fixed in one configuration file and were not tuned; the specification was frozen on \FreezeDate.
+  \item \textbf{Honest inference.} Newey--West $t$-statistics, the probabilistic and deflated Sharpe
+  ratio \citep{bailey2014}, Holm-adjusted $p$-values and a robustness grid of \NTrials{} variants that all
+  count as trials.
+  \item \textbf{Realistic implementation.} Trades happen one day after the signal, cost
+  \CostBps{}~bps per side, and short positions pay \BorrowBps{}~bps p.a. in lending fees.
+  \item \textbf{Live record.} Everything after the freeze date is genuine out-of-sample data
+  (Section~\ref{sec:live}).
+\end{enumerate}
+
+\section{Data and universe}\label{sec:data}
+\paragraph{Sources.} Daily total-return prices (adjusted for dividends and splits) come from Yahoo
+Finance for \NTickers{} stocks. The benchmark is the DAX performance index, which reinvests dividends.
+The S\&P\,500 total-return index is converted into euros at the daily EUR/USD rate. The risk-free rate is
+the German 3-month interbank rate from FRED. Index changes are taken from the Wikipedia list of DAX
+changes and checked mechanically: the reconstructed index must contain exactly 30 members on every
+day before 20 September 2021 and 40 afterwards.
+
+\paragraph{Coverage.} \NMembersEver{} companies were DAX members at some point since 2005. For \NMissing{}
+of them no free price history exists (Table~\ref{tab:tab_missing}), mostly takeovers and insolvencies
+before 2013. On average \CoverageMean{} of the index is covered (Figure~\ref{fig:coverage}). The missing
+names are excluded from the universe while they were members. This is the remaining survivorship
+bias, and it is small but not zero: Wirecard's collapse in 2020, for example, is not in the data.
+
+\fig{coverage}{DAX members and members with usable price data. The shaded area is the gap left by
+delisted companies without free data.}
+\tabfile{tab_missing}{Index members without free price data}{These stocks are excluded while they were
+members, so the effective universe is slightly smaller than the index in those periods.}
+
+\paragraph{Cleaning.} Free data has defects. Each correction is applied explicitly and logged
+(Table~\ref{tab:tab_quality}). One share split was missing from the Yahoo series. On spin-off ex-dates
+Yahoo's adjustment for German stocks is inconsistent, so the parent's return on that day is replaced by
+the DAX return; this removes the error at the cost of one day of stock-specific information. Jumps of
+more than 20\% that reverse the next day are treated as bad ticks. All other large moves are kept:
+\NBigMoves{} single-day moves above 25\% remain in the sample after inspection, such as the Volkswagen
+short squeeze of October 2008 or the Siemens Energy profit warnings of 2023.
+
+\tabfile{tab_quality}{Data-quality corrections}{Raw = return in the Yahoo series, Clean = return
+used in the study.}
+
+\paragraph{Survivorship bias.} To show why the point-in-time universe matters, I compare an equal-weight
+portfolio of the actual members with one that simply uses today's members for the whole history
+(Figure~\ref{fig:survivorship}). \FindSurvivorship{}
+
+\fig{survivorship}{Equal-weight portfolios, monthly rebalanced, after costs. The grey line uses today's
+40 members back-filled to 2006 and is therefore biased.}
+
+\section{The market: DAX versus S\&P\,500}
+Before testing factors it helps to know the market they live in. \FindSPX{} Table~\ref{tab:tab_benchmarks}
+reports the full set of risk and return measures, and Figures~\ref{fig:index_growth} to
+\ref{fig:dax_distribution} show the time series, rolling risk, calendar returns, the month-by-month
+history and the fat-tailed distribution of daily DAX returns.
+
+\tabfile{tab_benchmarks}{Benchmarks, \FirstMonth{} to \LastMonth{}}{Monthly data. Sharpe ratios use the
+German 3-month rate; the standard error follows \citet{mertens2002}, which allows for skewness and fat
+tails. VaR and expected shortfall are historical, one-month, 95\%. ``Equal-weight PIT'' holds all
+point-in-time members with equal weights and pays the same trading costs as the strategies.}
+
+\fig{index_growth}{Total return in euros and drawdowns. Legend values are the final level of 100
+invested at the start.}
+\fig{rolling_risk}{Rolling one-year volatility from daily returns and rolling three-year correlation of
+monthly returns.}
+\fig{calendar_returns}{Calendar-year returns.}
+\fig{dax_monthly_heatmap}{Every monthly DAX return of the sample.}
+\fig{dax_distribution}{Daily DAX returns against a normal distribution with the same mean and
+volatility. VaR and expected shortfall at 99\% are historical.}
+
+\section{Methodology}
+\paragraph{Signals.} Each signal is computed at the close of the last trading day of month $t$ from daily
+total returns $r_{i,d}$ of the previous $L=252$ trading days. A stock needs at least 200 valid returns in
+that window and must be a DAX member on the formation day. Higher values mean higher expected returns.
+\begin{align*}
+\text{Momentum 12-1} &= \textstyle\prod_{d=t-251}^{t-21}(1+r_{i,d})-1 &&\text{\citep{jegadeesh1993}}\\
+\text{Short-term reversal} &= -\Big(\textstyle\prod_{d=t-20}^{t}(1+r_{i,d})-1\Big) &&\text{\citep{jegadeesh1990}}\\
+\text{Low volatility} &= -\sigma_i\sqrt{252} &&\text{\citep{ang2006,blitz2007}}\\
+\text{Low beta} &= -\big(0.6\,\hat\beta_i + 0.4\big),\quad \hat\beta_i=\operatorname{cov}(r_i,r_{\text{DAX}})/\operatorname{var}(r_{\text{DAX}}) &&\text{\citep{frazzini2014}}\\
+\text{52-week high} &= P_{i,t}\,/\,\max_{d\in(t-252,t]} P_{i,d} &&\text{\citep{george2004}}
+\end{align*}
+The composite is the average of the five cross-sectional $z$-scores, each winsorised at $\pm3$. Its
+weights are equal by construction and were not optimised.
+
+\paragraph{Portfolios.} Stocks are sorted into terciles each month (about 10 per leg with 30 members, 13
+with 40). Portfolios are equal-weighted, bought at the close one trading day after formation and held
+until the next rebalance, with weights drifting in between. The long-short portfolio is long the top
+and short the bottom tercile, so it is self-financing and its return is already an excess return.
+The long-only portfolio holds the top tercile and is compared with the DAX.
+
+\paragraph{Costs.} Turnover is measured against drifted weights. Every euro traded costs \CostBps{}~bps,
+a realistic all-in figure (spread plus fees) for DAX stocks; the short leg pays \BorrowBps{}~bps per year.
+The break-even cost is the one-way cost that would reduce the mean excess return to zero.
+
+\paragraph{Inference.} Means and CAPM alphas are tested with Newey--West standard errors. The rank
+information coefficient (IC) is the Spearman correlation between the signal and the next holding-period
+return. The probabilistic Sharpe ratio (PSR) is the probability that the true Sharpe ratio exceeds zero
+given the sample length, skewness and kurtosis. The deflated Sharpe ratio (DSR) replaces zero with the
+Sharpe ratio one would expect from the best of \NTrials{} unskilled trials, here \SRStar{}.
+
+\section{Results}
+\FindBest{} \FindWorst{} \FindHolm{}
+
+\tabfile{tab_factor_tests}{Do the signals predict returns?}{IC = mean monthly rank IC, ICIR =
+annualised IC/standard deviation. Spread = top minus bottom tercile before costs, per year. L/S net = mean
+long-short return after costs and lending fees, per year; stars mark Newey--West significance at 10, 5
+and 1\%. Holm $p$ adjusts for six tests. PSR and DSR as defined above. Monot. = average tercile returns
+decline from top to bottom.}
+
+\fig{tercile_returns}{Average annual return of each tercile. A useful signal shows a staircase from left
+(top) to right (bottom).}
+\fig{factor_long_short}{Long-short portfolios, growth of 100 before and after costs.}
+
+\paragraph{Market exposure.} \FindBeta{} Table~\ref{tab:tab_long_short} shows the trade-off between gross
+premium, turnover and cost.
+
+\tabfile{tab_long_short}{Long-short portfolios after costs}{Beta and alpha from a regression of monthly
+returns on DAX excess returns, alpha per year with Newey--West $t$-statistic. Turnover = one-way
+turnover per year (1.0 means the whole portfolio is replaced once). Break-even in bps per side.}
+
+\fig{rolling_ic}{Rolling two-year average of the monthly rank IC. Long stretches above or below zero show
+that factor premia come and go.}
+\fig[0.72\linewidth]{factor_correlations}{Correlations of monthly long-short returns and the DAX. Highly
+correlated signals add little diversification when they are combined in the composite.}
+
+\paragraph{Long only.} Most investors cannot short. Table~\ref{tab:tab_long_only} evaluates the top
+tercile alone against the DAX. \FindComposite{}
+
+\tabfile{tab_long_only}{Long-only top-tercile portfolios against the DAX}{After costs. TE = tracking
+error, IR = information ratio against the DAX, Up/Down = up- and down-market capture ratios. The
+equal-weight PIT portfolio shows how much of any outperformance comes from equal weighting alone.}
+
+\fig{composite_long_only}{Long-only composite against both benchmarks.}
+
+\section{Robustness}
+Figure~\ref{fig:robustness} repeats every long-short strategy with no, one and five days between signal
+and trade and with terciles or quintiles. All \NTrials{} cells enter the deflated Sharpe ratio, so trying
+more variants makes the bar for significance higher, not lower. Figure~\ref{fig:cost_sensitivity} shows
+how quickly high-turnover signals die when costs rise, and Table~\ref{tab:tab_subperiods} splits the
+sample into three regimes.
+
+\fig{robustness}{Net Sharpe ratio for each specification. The base case is lag 1, terciles.}
+\fig{cost_sensitivity}{Sharpe ratio as a function of the one-way trading cost.}
+\tabfile{tab_subperiods}{Subperiods: Sharpe ratio / CAGR}{Long-short Sharpe ratios are self-financing;
+long-only and benchmark Sharpe ratios are in excess of cash.}
+
+\section{Live out-of-sample record}\label{sec:live}
+The specification in \texttt{config.py} was frozen on \FreezeDate. Every observation after that date was
+unknown when the study was designed, so this table is the only clean test. It grows with each data
+update.
+
+\begin{table}[H]\centering\small\input{generated/tab_live.tex}\end{table}
+
+\section{Conclusion}
+Inside the DAX, simple price-based factors behave much like the literature predicts in direction, but the
+cross-section is narrow and the evidence is weak once costs, market exposure and multiple testing are
+taken seriously. \FindHolm{} \FindDSR{} \FindDefensive{} Two lessons reach beyond factor premia:
+how much a back-filled universe flatters every backtest, and how different the DAX and the S\&P\,500
+have been for a euro investor. The live record will show whether any of the in-sample patterns
+persist.
+
+\paragraph{Limitations.} Free data only; \NMissing{} delisted members are missing; prices are adjusted closes,
+so dividends enter the 52-week high; costs are a single flat estimate; no fundamental factors (value,
+quality), because point-in-time fundamentals are not freely available.
+
+\appendix
+\section{Calendar-year returns}
+\begin{table}[H]\centering\small\input{generated/tab_calendar.tex}\end{table}
+
+\section{Every constituent}
+\fig{stocks_risk_return}{Annualised return and volatility of each stock while it was a DAX member,
+\FirstMonth{} onwards. Stocks with less than one year of membership are left out of the chart but are in
+the table.}
+{\small Statistics only cover the days a stock was in the index. $^{\dagger}$ = no longer a member.\par}
+{\footnotesize\input{generated/tab_stocks.tex}}
+
+\begin{thebibliography}{9}
+\bibitem[Ang et al.(2006)]{ang2006} Ang, A., Hodrick, R., Xing, Y., Zhang, X. (2006). The cross-section of
+volatility and expected returns. \emph{Journal of Finance} 61(1), 259--299.
+\bibitem[Bailey and L\'opez de Prado(2014)]{bailey2014} Bailey, D., L\'opez de Prado, M. (2014). The
+deflated Sharpe ratio. \emph{Journal of Portfolio Management} 40(5), 94--107.
+\bibitem[Blitz and van Vliet(2007)]{blitz2007} Blitz, D., van Vliet, P. (2007). The volatility effect.
+\emph{Journal of Portfolio Management} 34(1), 102--113.
+\bibitem[Frazzini and Pedersen(2014)]{frazzini2014} Frazzini, A., Pedersen, L. (2014). Betting against
+beta. \emph{Journal of Financial Economics} 111(1), 1--25.
+\bibitem[George and Hwang(2004)]{george2004} George, T., Hwang, C. (2004). The 52-week high and momentum
+investing. \emph{Journal of Finance} 59(5), 2145--2176.
+\bibitem[Harvey et al.(2016)]{harvey2016} Harvey, C., Liu, Y., Zhu, H. (2016). \ldots and the cross-section
+of expected returns. \emph{Review of Financial Studies} 29(1), 5--68.
+\bibitem[Jegadeesh(1990)]{jegadeesh1990} Jegadeesh, N. (1990). Evidence of predictable behavior of
+security returns. \emph{Journal of Finance} 45(3), 881--898.
+\bibitem[Jegadeesh and Titman(1993)]{jegadeesh1993} Jegadeesh, N., Titman, S. (1993). Returns to buying
+winners and selling losers. \emph{Journal of Finance} 48(1), 65--91.
+\bibitem[Mertens(2002)]{mertens2002} Mertens, E. (2002). Comments on variance of the IID estimator in Lo
+(2002). Working paper, University of Basel.
+\end{thebibliography}
+\end{document}

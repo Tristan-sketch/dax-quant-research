@@ -1,0 +1,14 @@
+{
+  "downloaded_utc": "2026-10-14T18:23:21+00:00",
+  "last_price_date": "2026-10-14",
+  "n_price_series": 58,
+  "last_riskfree_month": "2026-08-01",
+  "first_month": "2006-02",
+  "last_month": "2026-09",
+  "n_months": 248,
+  "n_formations": 249,
+  "avg_universe": 31.606425702811244,
+  "freeze_date": "2026-10-14",
+  "n_tickers_used": 58,
+  "coverage_mean": 0.9688720173535792
+}

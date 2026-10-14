@@ -1,0 +1,8 @@
+date,ticker,action,value,note
+2007-06-11,DB1.DE,split,2,2-for-1 share split not reflected in the Yahoo series
+2005-01-31,BAYN.DE,spinoff,,Spin-off of Lanxess (1 LXS per 10 BAYN)
+2013-07-08,SIE.DE,spinoff,,Spin-off of Osram (1 OSR per 10 SIE)
+2016-09-12,EOAN.DE,spinoff,,Spin-off of Uniper (1 UN01 per 10 EOAN)
+2020-09-28,SIE.DE,spinoff,,Spin-off of Siemens Energy (1 ENR per 2 SIE)
+2021-09-16,CON.DE,spinoff,,Spin-off of Vitesco (1 VTSC per 5 CON)
+2021-12-10,MBG.DE,spinoff,,Spin-off of Daimler Truck (1 DTG per 2 DAI)

@@ -1,0 +1,66 @@
+ticker,name,sector,yahoo
+ADS.DE,Adidas,Consumer,ADS.DE
+AIR.DE,Airbus,Industrials,AIR.DE
+ALV.DE,Allianz,Financials,ALV.DE
+BAS.DE,BASF,Materials,BAS.DE
+BAYN.DE,Bayer,Health Care,BAYN.DE
+BEI.DE,Beiersdorf,Consumer,BEI.DE
+BMW.DE,BMW,Consumer,BMW.DE
+BNR.DE,Brenntag,Materials,BNR.DE
+CBK.DE,Commerzbank,Financials,CBK.DE
+CON.DE,Continental,Consumer,CON.DE
+DTG.DE,Daimler Truck,Industrials,DTG.DE
+DBK.DE,Deutsche Bank,Financials,DBK.DE
+DB1.DE,Deutsche Börse,Financials,DB1.DE
+DTE.DE,Deutsche Telekom,Telecom,DTE.DE
+DHL.DE,DHL Group,Industrials,DHL.DE
+EOAN.DE,E.ON,Utilities,EOAN.DE
+FRE.DE,Fresenius,Health Care,FRE.DE
+FME.DE,Fresenius Medical Care,Health Care,FME.DE
+G1A.DE,GEA Group,Industrials,G1A.DE
+HNR1.DE,Hannover Re,Financials,HNR1.DE
+HEI.DE,Heidelberg Materials,Materials,HEI.DE
+HEN3.DE,Henkel,Consumer,HEN3.DE
+HOT.DE,Hochtief,Industrials,HOT.DE
+IFX.DE,Infineon,Technology,IFX.DE
+MBG.DE,Mercedes-Benz Group,Consumer,MBG.DE
+MRK.DE,Merck KGaA,Health Care,MRK.DE
+MTX.DE,MTU Aero Engines,Industrials,MTX.DE
+MUV2.DE,Munich Re,Financials,MUV2.DE
+QIA.DE,Qiagen,Health Care,QIA.DE
+RHM.DE,Rheinmetall,Industrials,RHM.DE
+RWE.DE,RWE,Utilities,RWE.DE
+SAP.DE,SAP,Technology,SAP.DE
+G24.DE,Scout24,Technology,G24.DE
+SIE.DE,Siemens,Industrials,SIE.DE
+ENR.DE,Siemens Energy,Industrials,ENR.DE
+SHL.DE,Siemens Healthineers,Health Care,SHL.DE
+SY1.DE,Symrise,Materials,SY1.DE
+VOW3.DE,Volkswagen (pref.),Consumer,VOW3.DE
+VNA.DE,Vonovia,Real Estate,VNA.DE
+ZAL.DE,Zalando,Consumer,ZAL.DE
+HVM.DE,HypoVereinsbank,Financials,
+HRX.DE,Hypo Real Estate,Financials,
+SCH.DE,Schering,Health Care,
+DPB.DE,Deutsche Postbank,Financials,
+ALT.DE,Altana,Health Care,
+TUI1.DE,TUI,Consumer,TUI1.DE
+SDF.DE,K+S,Materials,SDF.DE
+SZG.DE,Salzgitter,Materials,SZG.DE
+VOW.DE,Volkswagen (ord.),Consumer,VOW.DE
+MAN.DE,MAN,Industrials,
+CEC.DE,Metro (old),Consumer,CEC.DE
+LXS.DE,Lanxess,Materials,LXS.DE
+PSM.DE,ProSiebenSat.1 Media,Telecom,PSM.DE
+LIN.DE,Linde,Materials,LIN.F
+1COV.DE,Covestro,Materials,1COV.F
+WDI.DE,Wirecard,Technology,
+TKA.DE,thyssenkrupp,Materials,TKA.DE
+LHA.DE,Lufthansa,Industrials,LHA.DE
+DWNI.DE,Deutsche Wohnen,Real Estate,DWNI.DE
+DHER.DE,Delivery Hero,Consumer,DHER.DE
+HFG.DE,HelloFresh,Consumer,HFG.DE
+PAH3.DE,Porsche SE,Financials,PAH3.DE
+PUM.DE,Puma,Consumer,PUM.DE
+SRT3.DE,Sartorius,Health Care,SRT3.DE
+P911.DE,Porsche AG,Consumer,P911.DE

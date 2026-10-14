@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DAX Factor Research</title>
+<meta name="description" content="Point-in-time factor research on DAX constituents, benchmarked against the S&amp;P 500. Updated 2026-10-14.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="wrap">
+  <p class="eyebrow">Quant research · data through 2026-10-14</p>
+  <h1>Factor Premia in the DAX</h1>
+  <p class="lede">Five price-based factors and a composite, tested on a point-in-time DAX universe from 2006-02 to 2026-09, with trading costs, lending fees and corrections for multiple testing. Every number on this page is regenerated from raw data on each update.</p>
+  <nav>
+    
+    <a class="button" href="#results">Results</a>
+    <a class="button" href="#market">DAX vs S&amp;P 500</a>
+    <a class="button" href="#data">Data</a>
+    <a class="button" href="#stocks">All stocks</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="tiles" aria-label="Key figures">
+    
+    <div class="tile">
+      <div class="tile-label">DAX, CAGR</div>
+      <div class="tile-value">7.4%</div>
+      <div class="tile-note">Sharpe 0.43, max drawdown -52%</div>
+    </div>
+    
+    <div class="tile">
+      <div class="tile-label">S&amp;P 500 in EUR, CAGR</div>
+      <div class="tile-value">11.5%</div>
+      <div class="tile-note">Sharpe 0.74, correlation 0.69</div>
+    </div>
+    
+    <div class="tile">
+      <div class="tile-label">Best factor: Momentum 12-1</div>
+      <div class="tile-value">0.40</div>
+      <div class="tile-note">net Sharpe, long-short, DSR 0.45</div>
+    </div>
+    
+    <div class="tile">
+      <div class="tile-label">Long-only composite, CAGR</div>
+      <div class="tile-value">9.8%</div>
+      <div class="tile-note">beta 0.65, IR 0.16</div>
+    </div>
+    
+    <div class="tile">
+      <div class="tile-label">Survivorship bias</div>
+      <div class="tile-value">+3.8%</div>
+      <div class="tile-note">per year, from back-filling today&#39;s members</div>
+    </div>
+    
+  </section>
+
+  <section>
+    <h2>Findings</h2>
+    <ul class="findings">
+      <li>The strongest signal is <em>Momentum 12-1</em>, whose long-short portfolio earns 7.2% per year after costs (Sharpe 0.40); its mean return is only marginally significant (10% level).</li><li>The weakest is <em>Short-term reversal</em> with a net Sharpe ratio of −0.29; it loses money mostly through trading costs, since its gross spread is only −0.4% per year at a turnover of 16.3 times the portfolio per year.</li><li>After a Holm correction for testing six strategies, no long-short premium remains significant at the 5% level.</li><li>Across all 36 specifications that were run, an unskilled researcher would expect a best Sharpe ratio of 0.43 by luck alone. No strategy has a deflated Sharpe ratio above 0.95, so none of them can be called a discovery on this data.</li><li>Five of six long-short portfolios carry a negative market beta (lowest: Low beta at −0.76), because the bottom tercile of these signals is dominated by volatile, high-beta stocks. In a rising market that drag hides part of the premium: after controlling for the DAX, the CAPM alpha is significant at 5% for Momentum 12-1, Low beta and 52-week high.</li><li>The defensive signals (low volatility and low beta) give long-only portfolios with an average volatility of 13.0% against 17.7% for the DAX and an average Sharpe ratio of 0.64, while their long-short spreads average a Sharpe ratio of 0.03: in raw returns their benefit is lower risk rather than a dollar-neutral premium.</li><li>The long-only composite portfolio returns 9.8% per year against 7.4% for the DAX, with a beta of 0.65, a tracking error of 9.7% and an information ratio of 0.16. Its CAPM alpha of 4.2% per year has a t-statistic of 2.80.</li><li>Using today's members for the whole history raises the equal-weight return from 7.1% to 11.0% per year, a bias of 3.8% per year that would be mistaken for skill.</li><li>Measured in euros, the S&P 500 compounded at 11.5% per year versus 7.4% for the DAX, with lower volatility (14.4% vs 17.7%). The correlation of monthly returns is 0.69 and the S&P 500's beta to the DAX is 0.56, so US equities diversified a euro investor's DAX risk rather than replicating it.</li>
+    </ul>
+  </section>
+
+  <section id="results">
+    <h2>Do the signals predict returns?</h2>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Signal</th>
+<th>IC</th>
+<th>t(IC)</th>
+<th>IC>0</th>
+<th>ICIR</th>
+<th>Spread</th>
+<th>L/S net</th>
+<th>t</th>
+<th>Holm p</th>
+<th>PSR</th>
+<th>DSR</th>
+<th>Monot.</th>
+</tr></thead><tbody>
+<tr><td>Momentum 12-1</td><td>0.039</td><td>2.31</td><td>58%</td><td>0.47</td><td>8.2%</td><td>7.2%<sup>*</sup></td><td>1.82</td><td>0.42</td><td>0.97</td><td>0.45</td><td>yes</td></tr>
+<tr><td>Short-term reversal</td><td>−0.000</td><td>−0.03</td><td>49%</td><td>−0.01</td><td>−0.4%</td><td>−4.2%</td><td>−1.40</td><td>0.81</td><td>0.08</td><td>0.00</td><td>no</td></tr>
+<tr><td>Low volatility</td><td>0.016</td><td>0.81</td><td>52%</td><td>0.18</td><td>2.0%</td><td>0.7%</td><td>0.17</td><td>1.00</td><td>0.57</td><td>0.04</td><td>yes</td></tr>
+<tr><td>Low beta</td><td>0.019</td><td>0.92</td><td>51%</td><td>0.19</td><td>1.7%</td><td>0.5%</td><td>0.11</td><td>1.00</td><td>0.55</td><td>0.03</td><td>no</td></tr>
+<tr><td>52-week high</td><td>0.022</td><td>1.37</td><td>54%</td><td>0.27</td><td>5.1%</td><td>3.0%</td><td>0.82</td><td>1.00</td><td>0.78</td><td>0.11</td><td>yes</td></tr>
+<tr class="sep"><td>Composite</td><td>0.028</td><td>1.41</td><td>52%</td><td>0.29</td><td>3.0%</td><td>1.5%</td><td>0.35</td><td>1.00</td><td>0.64</td><td>0.06</td><td>yes</td></tr>
+</tbody></table></div>
+    <p class="note">IC = mean monthly rank information coefficient. Spread = top minus bottom tercile before costs. L/S net = long-short return after 10 bps per trade and 25 bps p.a. lending fees; stars mark Newey–West significance at 10/5/1%. Holm p adjusts for six tests. PSR = probability that the true Sharpe ratio is above zero; DSR = the same against the best of 36 unskilled trials (Sharpe 0.43).</p>
+    <figure><img src="figures/tercile_returns.png" alt="Average annual return of each tercile. A useful signal is a staircase from top to bottom." loading="lazy"><figcaption>Average annual return of each tercile. A useful signal is a staircase from top to bottom.</figcaption></figure>
+    <figure><img src="figures/factor_long_short.png" alt="Long-short portfolios, growth of 100 before and after costs." loading="lazy"><figcaption>Long-short portfolios, growth of 100 before and after costs.</figcaption></figure>
+    <h3>Long-short portfolios after costs</h3>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Signal</th>
+<th>CAGR</th>
+<th>Vol.</th>
+<th>Sharpe</th>
+<th>Max DD</th>
+<th>Beta</th>
+<th>Alpha</th>
+<th>t</th>
+<th>Turnover</th>
+<th>Break-even</th>
+</tr></thead><tbody>
+<tr><td>Momentum 12-1</td><td>5.8%</td><td>17.9%</td><td>0.40</td><td>−46.3%</td><td>−0.40</td><td>10.2%<sup>***</sup></td><td>2.82</td><td>5.3</td><td>81</td></tr>
+<tr><td>Short-term reversal</td><td>−5.2%</td><td>14.4%</td><td>−0.29</td><td>−67.9%</td><td>0.12</td><td>−5.2%</td><td>−1.61</td><td>16.3</td><td>−2</td></tr>
+<tr><td>Low volatility</td><td>−0.9%</td><td>18.4%</td><td>0.04</td><td>−60.2%</td><td>−0.61</td><td>5.4%</td><td>1.64</td><td>2.1</td><td>33</td></tr>
+<tr><td>Low beta</td><td>−1.5%</td><td>20.3%</td><td>0.03</td><td>−67.3%</td><td>−0.76</td><td>6.3%<sup>**</sup></td><td>2.02</td><td>2.1</td><td>28</td></tr>
+<tr><td>52-week high</td><td>1.4%</td><td>17.9%</td><td>0.17</td><td>−43.7%</td><td>−0.53</td><td>7.0%<sup>**</sup></td><td>2.25</td><td>7.1</td><td>33</td></tr>
+<tr class="sep"><td>Composite</td><td>−0.2%</td><td>18.6%</td><td>0.08</td><td>−61.4%</td><td>−0.64</td><td>6.3%<sup>*</sup></td><td>1.95</td><td>5.8</td><td>25</td></tr>
+</tbody></table></div>
+    <figure><img src="figures/rolling_ic.png" alt="Rolling two-year average of the monthly rank IC." loading="lazy"><figcaption>Rolling two-year average of the monthly rank IC.</figcaption></figure>
+    <figure class="narrow"><img src="figures/factor_correlations.png" alt="Correlation of monthly long-short returns and the DAX." loading="lazy"><figcaption>Correlation of monthly long-short returns and the DAX.</figcaption></figure>
+    <h3>Long only, against the DAX</h3>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Portfolio</th>
+<th>CAGR</th>
+<th>Vol.</th>
+<th>Sharpe</th>
+<th>Max DD</th>
+<th>Beta</th>
+<th>Alpha</th>
+<th>t</th>
+<th>TE</th>
+<th>IR</th>
+<th>Up</th>
+<th>Down</th>
+<th>Turnover</th>
+</tr></thead><tbody>
+<tr><td>Momentum 12-1</td><td>12.0%</td><td>16.3%</td><td>0.71</td><td>−34.4%</td><td>0.79</td><td>5.5%<sup>***</sup></td><td>3.23</td><td>9.1%</td><td>0.43</td><td>94%</td><td>71%</td><td>2.7</td></tr>
+<tr><td>Short-term reversal</td><td>4.2%</td><td>20.4%</td><td>0.25</td><td>−60.4%</td><td>1.03</td><td>−2.7%</td><td>−1.32</td><td>9.2%</td><td>−0.27</td><td>96%</td><td>110%</td><td>8.3</td></tr>
+<tr><td>Low volatility</td><td>8.7%</td><td>13.2%</td><td>0.61</td><td>−32.9%</td><td>0.65</td><td>3.2%<sup>**</sup></td><td>2.39</td><td>9.2%</td><td>0.06</td><td>75%</td><td>61%</td><td>1.0</td></tr>
+<tr><td>Low beta</td><td>9.4%</td><td>12.7%</td><td>0.67</td><td>−26.5%</td><td>0.56</td><td>4.3%<sup>***</sup></td><td>2.91</td><td>11.1%</td><td>0.09</td><td>68%</td><td>49%</td><td>1.0</td></tr>
+<tr><td>52-week high</td><td>9.5%</td><td>14.1%</td><td>0.63</td><td>−39.7%</td><td>0.69</td><td>3.7%<sup>**</sup></td><td>2.56</td><td>8.9%</td><td>0.15</td><td>81%</td><td>65%</td><td>4.0</td></tr>
+<tr class="sep"><td>Composite</td><td>9.8%</td><td>13.7%</td><td>0.67</td><td>−37.7%</td><td>0.65</td><td>4.2%<sup>***</sup></td><td>2.80</td><td>9.7%</td><td>0.16</td><td>76%</td><td>57%</td><td>2.9</td></tr>
+<tr class="sep"><td>Equal-weight PIT</td><td>7.1%</td><td>17.5%</td><td>0.41</td><td>−53.3%</td><td>0.97</td><td>−0.1%</td><td>−0.11</td><td>3.4%</td><td>−0.09</td><td>97%</td><td>97%</td><td>0.4</td></tr>
+</tbody></table></div>
+    <figure><img src="figures/composite_long_only.png" alt="Long-only composite against both benchmarks." loading="lazy"><figcaption>Long-only composite against both benchmarks.</figcaption></figure>
+    <h3>Robustness</h3>
+    <figure><img src="figures/robustness.png" alt="Net Sharpe ratio of every long-short specification. All cells count as trials for the deflated Sharpe ratio." loading="lazy"><figcaption>Net Sharpe ratio of every long-short specification. All cells count as trials for the deflated Sharpe ratio.</figcaption></figure>
+    <figure><img src="figures/cost_sensitivity.png" alt="Sharpe ratio as a function of the one-way trading cost." loading="lazy"><figcaption>Sharpe ratio as a function of the one-way trading cost.</figcaption></figure>
+    <h3>Subperiods (Sharpe / CAGR)</h3>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Series</th>
+<th>Crisis years 2006-2012</th>
+<th>Low-rate era 2013-2019</th>
+<th>2020 to date</th>
+</tr></thead><tbody>
+<tr><td>DAX</td><td>0.19 / 4.2%</td><td>0.62 / 8.2%</td><td>0.55 / 10.0%</td></tr>
+<tr><td>S&P 500 (EUR)</td><td>0.06 / 2.1%</td><td>1.41 / 17.8%</td><td>0.88 / 15.1%</td></tr>
+<tr><td>Equal-weight PIT</td><td>0.25 / 5.3%</td><td>0.66 / 8.6%</td><td>0.42 / 7.6%</td></tr>
+<tr class="sep"><td>Momentum 12-1 (L/S)</td><td>0.37 / 6.0%</td><td>0.35 / 4.3%</td><td>0.52 / 7.1%</td></tr>
+<tr><td>Short-term reversal (L/S)</td><td>−0.20 / −5.3%</td><td>−0.13 / −2.1%</td><td>−0.59 / −8.1%</td></tr>
+<tr><td>Low volatility (L/S)</td><td>0.24 / 2.8%</td><td>0.30 / 3.6%</td><td>−0.45 / −8.9%</td></tr>
+<tr><td>Low beta (L/S)</td><td>0.09 / −0.8%</td><td>0.54 / 8.2%</td><td>−0.59 / −11.3%</td></tr>
+<tr><td>52-week high (L/S)</td><td>0.14 / 0.6%</td><td>0.17 / 1.4%</td><td>0.22 / 2.2%</td></tr>
+<tr><td>Composite (L/S)</td><td>0.26 / 3.4%</td><td>0.47 / 6.7%</td><td>−0.56 / −10.3%</td></tr>
+<tr class="sep"><td>Composite (long only)</td><td>0.59 / 10.1%</td><td>1.20 / 14.2%</td><td>0.31 / 5.1%</td></tr>
+</tbody></table></div>
+    <h3>Live out-of-sample record since 2026-10-14</h3>
+    <p class="note"><em>No out-of-sample data yet. The specification was frozen on 2026-10-14; this table fills in automatically with every update.</em></p>
+  </section>
+
+  <section id="market">
+    <h2>The market: DAX vs S&amp;P 500</h2>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>& DAX</th>
+<th>S&P 500 (EUR)</th>
+<th>Equal-weight PIT</th>
+<th>Equal-weight survivors</th>
+</tr></thead><tbody>
+<tr><td>CAGR</td><td>7.4%</td><td>11.5%</td><td>7.1%</td><td>11.0%</td></tr>
+<tr><td>Volatility p.a.</td><td>17.7%</td><td>14.4%</td><td>17.5%</td><td>17.9%</td></tr>
+<tr><td>Sharpe ratio</td><td>0.43</td><td>0.74</td><td>0.41</td><td>0.61</td></tr>
+<tr><td>\quad standard error</td><td>0.23</td><td>0.23</td><td>0.23</td><td>0.23</td></tr>
+<tr><td>Sortino ratio</td><td>0.62</td><td>1.16</td><td>0.60</td><td>0.91</td></tr>
+<tr class="sep"><td>Maximum drawdown</td><td>−52.4%</td><td>−46.9%</td><td>−53.3%</td><td>−55.5%</td></tr>
+<tr><td>Longest drawdown (months)</td><td>64</td><td>57</td><td>62</td><td>37</td></tr>
+<tr><td>Calmar ratio</td><td>0.14</td><td>0.24</td><td>0.13</td><td>0.20</td></tr>
+<tr class="sep"><td>Skewness (monthly)</td><td>−0.49</td><td>−0.35</td><td>−0.57</td><td>−0.47</td></tr>
+<tr><td>Excess kurtosis (monthly)</td><td>1.55</td><td>0.81</td><td>1.81</td><td>2.83</td></tr>
+<tr><td>VaR 95% (monthly)</td><td>8.7%</td><td>6.8%</td><td>7.9%</td><td>7.4%</td></tr>
+<tr><td>Expected shortfall 95%</td><td>11.9%</td><td>9.0%</td><td>11.9%</td><td>11.8%</td></tr>
+<tr class="sep"><td>Positive months</td><td>59.7%</td><td>64.1%</td><td>60.9%</td><td>61.3%</td></tr>
+<tr><td>Best month</td><td>16.8%</td><td>14.4%</td><td>16.3%</td><td>22.2%</td></tr>
+<tr><td>Worst month</td><td>−19.2%</td><td>−12.6%</td><td>−18.9%</td><td>−20.9%</td></tr>
+<tr class="sep"><td>Beta to DAX</td><td>–</td><td>0.56</td><td>0.97</td><td>0.98</td></tr>
+<tr><td>Correlation with DAX</td><td>–</td><td>0.69</td><td>0.98</td><td>0.97</td></tr>
+</tbody></table></div>
+    <figure><img src="figures/index_growth.png" alt="Total return in euros and drawdowns." loading="lazy"><figcaption>Total return in euros and drawdowns.</figcaption></figure>
+    <figure><img src="figures/rolling_risk.png" alt="Rolling one-year volatility and three-year correlation." loading="lazy"><figcaption>Rolling one-year volatility and three-year correlation.</figcaption></figure>
+    <figure><img src="figures/calendar_returns.png" alt="Calendar-year returns." loading="lazy"><figcaption>Calendar-year returns.</figcaption></figure>
+    <figure><img src="figures/dax_monthly_heatmap.png" alt="Every monthly DAX return." loading="lazy"><figcaption>Every monthly DAX return.</figcaption></figure>
+    <figure><img src="figures/dax_distribution.png" alt="Daily DAX returns against a normal distribution." loading="lazy"><figcaption>Daily DAX returns against a normal distribution.</figcaption></figure>
+    <h3>Calendar-year returns</h3>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Year</th>
+<th>DAX</th>
+<th>S&P 500 (EUR)</th>
+<th>Equal-weight</th>
+<th>Composite (long)</th>
+<th>Momentum (L/S)</th>
+</tr></thead><tbody>
+<tr><td>2006</td><td>15.2%</td><td>2.9%</td><td>18.8%</td><td>18.2%</td><td>0.7%</td></tr>
+<tr><td>2007</td><td>22.3%</td><td>−4.7%</td><td>20.1%</td><td>25.7%</td><td>13.1%</td></tr>
+<tr><td>2008</td><td>−40.4%</td><td>−35.8%</td><td>−41.6%</td><td>−32.0%</td><td>30.9%</td></tr>
+<tr><td>2009</td><td>23.8%</td><td>27.7%</td><td>29.8%</td><td>27.7%</td><td>−24.6%</td></tr>
+<tr><td>2010</td><td>16.1%</td><td>23.6%</td><td>20.4%</td><td>11.0%</td><td>26.3%</td></tr>
+<tr><td>2011</td><td>−14.7%</td><td>4.2%</td><td>−14.4%</td><td>5.8%</td><td>7.1%</td></tr>
+<tr><td>2012</td><td>29.1%</td><td>11.5%</td><td>28.6%</td><td>28.6%</td><td>−1.8%</td></tr>
+<tr><td>2013</td><td>25.5%</td><td>29.2%</td><td>21.6%</td><td>27.2%</td><td>19.1%</td></tr>
+<tr><td>2014</td><td>2.7%</td><td>30.5%</td><td>3.9%</td><td>8.6%</td><td>−8.1%</td></tr>
+<tr><td>2015</td><td>9.6%</td><td>12.7%</td><td>11.3%</td><td>24.4%</td><td>15.2%</td></tr>
+<tr><td>2016</td><td>6.9%</td><td>14.6%</td><td>7.2%</td><td>9.0%</td><td>−11.7%</td></tr>
+<tr><td>2017</td><td>12.5%</td><td>7.9%</td><td>19.0%</td><td>15.8%</td><td>−0.2%</td></tr>
+<tr><td>2018</td><td>−18.3%</td><td>−1.0%</td><td>−19.0%</td><td>−8.7%</td><td>8.1%</td></tr>
+<tr><td>2019</td><td>25.5%</td><td>35.2%</td><td>22.3%</td><td>27.8%</td><td>11.5%</td></tr>
+<tr><td>2020</td><td>3.5%</td><td>7.7%</td><td>7.5%</td><td>−4.3%</td><td>−22.0%</td></tr>
+<tr><td>2021</td><td>15.8%</td><td>40.1%</td><td>11.0%</td><td>12.0%</td><td>−2.6%</td></tr>
+<tr><td>2022</td><td>−12.3%</td><td>−13.0%</td><td>−16.2%</td><td>−13.1%</td><td>17.8%</td></tr>
+<tr><td>2023</td><td>20.3%</td><td>21.6%</td><td>16.8%</td><td>17.0%</td><td>−11.2%</td></tr>
+<tr><td>2024</td><td>18.8%</td><td>33.2%</td><td>13.9%</td><td>18.1%</td><td>33.8%</td></tr>
+<tr><td>2025</td><td>23.0%</td><td>4.8%</td><td>20.5%</td><td>6.3%</td><td>47.0%</td></tr>
+<tr><td>2026</td><td>2.9%</td><td>16.2%</td><td>2.0%</td><td>2.0%</td><td>2.0%</td></tr>
+</tbody></table></div>
+  </section>
+
+  <section id="data">
+    <h2>Data and universe</h2>
+    <figure><img src="figures/coverage.png" alt="DAX members and members with usable price data." loading="lazy"><figcaption>DAX members and members with usable price data.</figcaption></figure>
+    <figure><img src="figures/survivorship.png" alt="Equal-weight portfolios: actual members vs today's members back-filled." loading="lazy"><figcaption>Equal-weight portfolios: actual members vs today's members back-filled.</figcaption></figure>
+    <h3>Members without free price data</h3>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Company</th>
+<th>In DAX from</th>
+<th>Until</th>
+</tr></thead><tbody>
+<tr><td>Altana</td><td>before 2005</td><td>2007-06-18</td></tr>
+<tr><td>Deutsche Postbank</td><td>2006-09-18</td><td>2009-03-23</td></tr>
+<tr><td>Hypo Real Estate</td><td>before 2005</td><td>2008-12-22</td></tr>
+<tr><td>HypoVereinsbank</td><td>before 2005</td><td>2005-12-19</td></tr>
+<tr><td>MAN</td><td>before 2005</td><td>2012-09-24</td></tr>
+<tr><td>Schering</td><td>before 2005</td><td>2006-09-18</td></tr>
+<tr><td>Wirecard</td><td>2018-09-24</td><td>2020-08-24</td></tr>
+</tbody></table></div>
+    <h3>Data-quality corrections</h3>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Date</th>
+<th>Stock</th>
+<th>Fix</th>
+<th>Raw</th>
+<th>Clean</th>
+<th>Reason</th>
+</tr></thead><tbody>
+<tr><td>2005-01-31</td><td>Bayer</td><td>spinoff</td><td>−2.2%</td><td>1.3%</td><td>Spin-off of Lanxess (1 LXS per 10 BAYN)</td></tr>
+<tr><td>2007-06-11</td><td>Deutsche Börse</td><td>split</td><td>−49.4%</td><td>1.2%</td><td class="wrap-cell">2-for-1 share split not reflected in the Yahoo series</td></tr>
+<tr><td>2008-10-10</td><td>Deutsche Wohnen</td><td>bad tick</td><td>−20.1%</td><td>0.0%</td><td>jump reversed next day</td></tr>
+<tr><td>2008-10-13</td><td>Deutsche Wohnen</td><td>bad tick</td><td>30.7%</td><td>0.0%</td><td>jump reversed next day</td></tr>
+<tr><td>2013-07-08</td><td>Siemens</td><td>spinoff</td><td>4.1%</td><td>2.1%</td><td>Spin-off of Osram (1 OSR per 10 SIE)</td></tr>
+<tr><td>2016-09-12</td><td>E.ON</td><td>spinoff</td><td>−6.0%</td><td>−1.3%</td><td>Spin-off of Uniper (1 UN01 per 10 EOAN)</td></tr>
+<tr><td>2020-09-28</td><td>Siemens</td><td>spinoff</td><td>9.2%</td><td>3.2%</td><td>Spin-off of Siemens Energy (1 ENR per 2 SIE)</td></tr>
+<tr><td>2021-09-16</td><td>Continental</td><td>spinoff</td><td>−6.2%</td><td>0.2%</td><td>Spin-off of Vitesco (1 VTSC per 5 CON)</td></tr>
+<tr><td>2021-12-10</td><td>Mercedes-Benz Group</td><td>spinoff</td><td>3.6%</td><td>−0.1%</td><td>Spin-off of Daimler Truck (1 DTG per 2 DAI)</td></tr>
+</tbody></table></div>
+  </section>
+
+  <section id="stocks">
+    <h2>Every constituent</h2>
+    <figure><img src="figures/stocks_risk_return.png" alt="Return and volatility of each stock while it was in the DAX." loading="lazy"><figcaption>Return and volatility of each stock while it was in the DAX.</figcaption></figure>
+    <p class="note">Statistics cover only the days a stock was in the index. † = no longer a member.</p>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Company</th>
+<th>Sector</th>
+<th>Years</th>
+<th>Return</th>
+<th>Vol.</th>
+<th>Sharpe</th>
+<th>Beta</th>
+<th>Max DD</th>
+<th>Worst day</th>
+</tr></thead><tbody>
+<tr><td>Rheinmetall</td><td>Industrials</td><td>3.6</td><td>50.2%</td><td>41.2%</td><td>1.12</td><td>1.02</td><td>−53.0%</td><td>−18.7%</td></tr>
+<tr><td>Siemens Energy</td><td>Industrials</td><td>5.1</td><td>49.8%</td><td>51.8%</td><td>1.02</td><td>1.48</td><td>−71.9%</td><td>−37.3%</td></tr>
+<tr><td>Hannover Re</td><td>Financials</td><td>5.1</td><td>23.6%</td><td>24.0%</td><td>0.91</td><td>0.65</td><td>−17.5%</td><td>−7.7%</td></tr>
+<tr><td>Daimler Truck</td><td>Industrials</td><td>4.6</td><td>16.2%</td><td>30.6%</td><td>0.56</td><td>1.14</td><td>−34.6%</td><td>−8.7%</td></tr>
+<tr><td>GEA Group</td><td>Industrials</td><td>1.1</td><td>14.9%</td><td>22.1%</td><td>0.64</td><td>0.68</td><td>−16.7%</td><td>−5.0%</td></tr>
+<tr><td>Linde<sup>†</sup></td><td>Materials</td><td>17.2</td><td>14.4%</td><td>25.1%</td><td>0.63</td><td>0.44</td><td>−38.2%</td><td>−9.5%</td></tr>
+<tr><td>Volkswagen (ord.)<sup>†</sup></td><td>Consumer</td><td>3.9</td><td>13.0%</td><td>89.0%</td><td>0.40</td><td>0.45</td><td>−85.7%</td><td>−22.7%</td></tr>
+<tr><td>Deutsche Wohnen<sup>†</sup></td><td>Real Estate</td><td>1.4</td><td>12.7%</td><td>26.7%</td><td>0.60</td><td>0.33</td><td>−17.5%</td><td>−8.2%</td></tr>
+<tr><td>Munich Re</td><td>Financials</td><td>20.8</td><td>12.6%</td><td>24.8%</td><td>0.56</td><td>0.84</td><td>−48.4%</td><td>−17.7%</td></tr>
+<tr><td>Airbus</td><td>Industrials</td><td>5.1</td><td>12.5%</td><td>28.8%</td><td>0.48</td><td>1.22</td><td>−27.7%</td><td>−11.6%</td></tr>
+<tr><td>Deutsche Börse</td><td>Financials</td><td>20.8</td><td>12.0%</td><td>29.5%</td><td>0.49</td><td>0.84</td><td>−76.9%</td><td>−12.1%</td></tr>
+<tr><td>Allianz</td><td>Financials</td><td>20.8</td><td>10.6%</td><td>28.9%</td><td>0.45</td><td>1.10</td><td>−72.7%</td><td>−15.3%</td></tr>
+<tr><td>Fresenius</td><td>Health Care</td><td>17.7</td><td>10.6%</td><td>25.6%</td><td>0.49</td><td>0.68</td><td>−72.3%</td><td>−17.7%</td></tr>
+<tr><td>Siemens</td><td>Industrials</td><td>20.8</td><td>10.2%</td><td>29.7%</td><td>0.43</td><td>1.15</td><td>−67.3%</td><td>−17.1%</td></tr>
+<tr><td>Salzgitter<sup>†</sup></td><td>Materials</td><td>1.5</td><td>9.5%</td><td>49.4%</td><td>0.41</td><td>1.50</td><td>−39.9%</td><td>−16.1%</td></tr>
+<tr><td>SAP</td><td>Technology</td><td>20.8</td><td>9.5%</td><td>26.0%</td><td>0.43</td><td>0.81</td><td>−53.0%</td><td>−21.9%</td></tr>
+<tr><td>Heidelberg Materials</td><td>Materials</td><td>16.4</td><td>9.3%</td><td>31.2%</td><td>0.42</td><td>1.18</td><td>−66.6%</td><td>−14.2%</td></tr>
+<tr><td>DHL Group</td><td>Industrials</td><td>20.8</td><td>8.6%</td><td>28.0%</td><td>0.39</td><td>0.94</td><td>−72.1%</td><td>−17.3%</td></tr>
+<tr><td>Deutsche Telekom</td><td>Telecom</td><td>20.8</td><td>8.5%</td><td>23.2%</td><td>0.42</td><td>0.69</td><td>−40.6%</td><td>−13.0%</td></tr>
+<tr><td>Adidas</td><td>Consumer</td><td>20.8</td><td>7.7%</td><td>31.0%</td><td>0.35</td><td>0.90</td><td>−71.5%</td><td>−15.4%</td></tr>
+<tr><td>BASF</td><td>Materials</td><td>20.8</td><td>7.2%</td><td>28.6%</td><td>0.34</td><td>1.08</td><td>−60.3%</td><td>−13.6%</td></tr>
+<tr><td>MTU Aero Engines</td><td>Industrials</td><td>7.1</td><td>6.8%</td><td>38.5%</td><td>0.33</td><td>1.22</td><td>−62.9%</td><td>−15.6%</td></tr>
+<tr><td>Merck KGaA</td><td>Health Care</td><td>19.5</td><td>6.6%</td><td>25.9%</td><td>0.34</td><td>0.63</td><td>−52.6%</td><td>−14.7%</td></tr>
+<tr><td>Henkel</td><td>Consumer</td><td>20.8</td><td>6.6%</td><td>22.6%</td><td>0.34</td><td>0.62</td><td>−56.3%</td><td>−11.3%</td></tr>
+<tr><td>BMW</td><td>Consumer</td><td>20.8</td><td>5.9%</td><td>30.9%</td><td>0.30</td><td>1.11</td><td>−65.4%</td><td>−13.2%</td></tr>
+<tr><td>Beiersdorf</td><td>Consumer</td><td>17.1</td><td>5.2%</td><td>20.7%</td><td>0.31</td><td>0.49</td><td>−53.3%</td><td>−20.1%</td></tr>
+<tr><td>Mercedes-Benz Group</td><td>Consumer</td><td>20.8</td><td>5.2%</td><td>33.5%</td><td>0.28</td><td>1.27</td><td>−76.5%</td><td>−18.9%</td></tr>
+<tr><td>Volkswagen (pref.)</td><td>Consumer</td><td>16.9</td><td>4.7%</td><td>33.3%</td><td>0.28</td><td>1.23</td><td>−63.0%</td><td>−19.8%</td></tr>
+<tr><td>Bayer</td><td>Health Care</td><td>20.8</td><td>4.1%</td><td>30.4%</td><td>0.24</td><td>0.93</td><td>−82.3%</td><td>−18.0%</td></tr>
+<tr><td>RWE</td><td>Utilities</td><td>20.8</td><td>3.4%</td><td>30.3%</td><td>0.22</td><td>0.81</td><td>−85.4%</td><td>−17.3%</td></tr>
+<tr><td>E.ON</td><td>Utilities</td><td>20.8</td><td>3.1%</td><td>27.7%</td><td>0.20</td><td>0.82</td><td>−77.3%</td><td>−11.5%</td></tr>
+<tr><td>Metro (old)<sup>†</sup></td><td>Consumer</td><td>6.7</td><td>2.9%</td><td>36.7%</td><td>0.20</td><td>0.80</td><td>−71.5%</td><td>−13.9%</td></tr>
+<tr><td>Infineon</td><td>Technology</td><td>20.3</td><td>2.6%</td><td>43.3%</td><td>0.25</td><td>1.26</td><td>−97.1%</td><td>−39.6%</td></tr>
+<tr><td>Fresenius Medical Care</td><td>Health Care</td><td>19.1</td><td>2.3%</td><td>24.9%</td><td>0.18</td><td>0.49</td><td>−69.1%</td><td>−16.5%</td></tr>
+<tr><td>Lufthansa<sup>†</sup></td><td>Industrials</td><td>14.5</td><td>1.4%</td><td>33.9%</td><td>0.18</td><td>0.97</td><td>−75.2%</td><td>−14.2%</td></tr>
+<tr><td>Vonovia</td><td>Real Estate</td><td>11.1</td><td>0.5%</td><td>28.8%</td><td>0.13</td><td>0.65</td><td>−65.8%</td><td>−12.1%</td></tr>
+<tr><td>Continental</td><td>Consumer</td><td>17.0</td><td>0.4%</td><td>35.0%</td><td>0.15</td><td>1.12</td><td>−76.7%</td><td>−17.5%</td></tr>
+<tr><td>thyssenkrupp<sup>†</sup></td><td>Materials</td><td>13.7</td><td>−1.4%</td><td>39.1%</td><td>0.13</td><td>1.31</td><td>−74.7%</td><td>−12.5%</td></tr>
+<tr><td>Qiagen</td><td>Health Care</td><td>5.1</td><td>−1.6%</td><td>24.1%</td><td>−0.04</td><td>0.42</td><td>−43.4%</td><td>−10.8%</td></tr>
+<tr><td>Deutsche Bank</td><td>Financials</td><td>20.8</td><td>−1.6%</td><td>41.0%</td><td>0.13</td><td>1.43</td><td>−92.7%</td><td>−18.4%</td></tr>
+<tr><td>Brenntag</td><td>Materials</td><td>5.1</td><td>−2.1%</td><td>26.5%</td><td>−0.03</td><td>0.82</td><td>−44.7%</td><td>−9.6%</td></tr>
+<tr><td>Covestro<sup>†</sup></td><td>Materials</td><td>6.8</td><td>−2.1%</td><td>34.1%</td><td>0.08</td><td>1.04</td><td>−69.1%</td><td>−14.6%</td></tr>
+<tr><td>Symrise</td><td>Materials</td><td>5.1</td><td>−2.4%</td><td>24.0%</td><td>−0.07</td><td>0.47</td><td>−47.0%</td><td>−9.1%</td></tr>
+<tr><td>Siemens Healthineers</td><td>Health Care</td><td>5.1</td><td>−5.4%</td><td>25.6%</td><td>−0.18</td><td>0.78</td><td>−45.4%</td><td>−8.6%</td></tr>
+<tr><td>K+S<sup>†</sup></td><td>Materials</td><td>7.5</td><td>−9.2%</td><td>42.5%</td><td>−0.03</td><td>0.99</td><td>−70.1%</td><td>−24.7%</td></tr>
+<tr><td>TUI<sup>†</sup></td><td>Consumer</td><td>2.7</td><td>−9.3%</td><td>32.8%</td><td>−0.25</td><td>1.09</td><td>−50.5%</td><td>−8.5%</td></tr>
+<tr><td>Commerzbank</td><td>Financials</td><td>16.4</td><td>−9.7%</td><td>46.2%</td><td>−0.02</td><td>1.37</td><td>−98.1%</td><td>−24.0%</td></tr>
+<tr><td>Lanxess<sup>†</sup></td><td>Materials</td><td>3.0</td><td>−11.5%</td><td>27.5%</td><td>−0.31</td><td>0.90</td><td>−49.3%</td><td>−7.0%</td></tr>
+<tr><td>Porsche SE<sup>†</sup></td><td>Financials</td><td>4.8</td><td>−15.6%</td><td>29.2%</td><td>−0.51</td><td>1.05</td><td>−62.1%</td><td>−10.9%</td></tr>
+<tr><td>ProSiebenSat.1 Media<sup>†</sup></td><td>Telecom</td><td>2.0</td><td>−17.9%</td><td>26.3%</td><td>−0.60</td><td>0.93</td><td>−40.7%</td><td>−14.5%</td></tr>
+<tr><td>Porsche AG<sup>†</sup></td><td>Consumer</td><td>2.8</td><td>−21.4%</td><td>29.3%</td><td>−0.78</td><td>0.91</td><td>−63.9%</td><td>−7.2%</td></tr>
+<tr><td>Sartorius<sup>†</sup></td><td>Health Care</td><td>4.1</td><td>−21.5%</td><td>46.2%</td><td>−0.34</td><td>1.15</td><td>−70.7%</td><td>−18.5%</td></tr>
+<tr><td>Zalando</td><td>Consumer</td><td>5.1</td><td>−23.6%</td><td>47.4%</td><td>−0.38</td><td>1.37</td><td>−82.0%</td><td>−13.4%</td></tr>
+<tr><td>Scout24</td><td>Technology</td><td>1.1</td><td>−24.9%</td><td>31.8%</td><td>−0.81</td><td>0.48</td><td>−40.7%</td><td>−6.1%</td></tr>
+<tr><td>Puma<sup>†</sup></td><td>Consumer</td><td>1.3</td><td>−39.7%</td><td>39.8%</td><td>−1.07</td><td>1.28</td><td>−61.3%</td><td>−9.0%</td></tr>
+<tr><td>Delivery Hero<sup>†</sup></td><td>Consumer</td><td>1.8</td><td>−41.7%</td><td>63.4%</td><td>−0.52</td><td>1.23</td><td>−82.5%</td><td>−30.4%</td></tr>
+<tr><td>Hochtief</td><td>Industrials</td><td>0.3</td><td>−58.7%</td><td>33.8%</td><td>−2.51</td><td>1.26</td><td>−28.4%</td><td>−9.4%</td></tr>
+<tr><td>HelloFresh<sup>†</sup></td><td>Consumer</td><td>1.0</td><td>−70.2%</td><td>66.6%</td><td>−1.48</td><td>1.41</td><td>−75.6%</td><td>−14.0%</td></tr>
+</tbody></table></div>
+  </section>
+
+  
+</main>
+
+<footer class="wrap">
+  <p>Prices: Yahoo Finance (adjusted closes). Risk-free rate: FRED IR3TIB01DEM156N. Index changes: Wikipedia list of DAX changes, verified to give 30 members before 20 Sep 2021 and 40 after. Specification frozen 2026-10-14. Built 2026-10-14T18:23:21+00:00 UTC.</p>
+  <p>This is research, not investment advice.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,94 @@
+name: Update research
+
+# Refreshes the data, reruns the study, compiles the paper and rebuilds the
+# website. Runs monthly, on every push to main, and on demand
+# (Actions tab -> "Update research" -> "Run workflow").
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 2 * *"  # 06:00 UTC on the 2nd of each month, after month-end data is in
+  push:
+    branches: [main]
+    paths-ignore:
+      - "public/**"
+      - "results/**"
+      - "report/generated/**"
+      - "report/figures/**"
+      - "report/main.pdf"
+      - "README.md"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: update-research
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install
+        run: uv sync --frozen
+
+      - name: Tests
+        run: uv run pytest -q
+
+      - name: Download data
+        run: uv run daxquant data
+
+      - name: Run analysis
+        run: uv run daxquant run
+
+      - name: Figures and LaTeX inputs
+        run: uv run daxquant report --no-pdf
+
+      - name: Compile paper
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: report
+
+      - name: Build website
+        run: uv run daxquant site
+
+      - name: Commit refreshed outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results report/generated report/figures report/main.pdf public
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Update research outputs (data through $(jq -r .last_price_date results/meta.json))"
+            git push
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: website
+          path: public
+
+      - uses: actions/upload-pages-artifact@v3
+        if: vars.DEPLOY_PAGES == 'true'
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    if: vars.DEPLOY_PAGES == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

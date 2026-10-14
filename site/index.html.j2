@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DAX Factor Research</title>
+<meta name="description" content="Point-in-time factor research on DAX constituents, benchmarked against the S&amp;P 500. Updated {{ meta.last_price_date }}.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="wrap">
+  <p class="eyebrow">Quant research · data through {{ meta.last_price_date }}</p>
+  <h1>Factor Premia in the DAX</h1>
+  <p class="lede">Five price-based factors and a composite, tested on a point-in-time DAX universe from {{ meta.first_month }} to {{ meta.last_month }}, with trading costs, lending fees and corrections for multiple testing. Every number on this page is regenerated from raw data on each update.</p>
+  <nav>
+    {% if has_pdf %}<a class="button primary" href="report.pdf">Read the paper (PDF)</a>{% endif %}
+    <a class="button" href="#results">Results</a>
+    <a class="button" href="#market">DAX vs S&amp;P 500</a>
+    <a class="button" href="#data">Data</a>
+    <a class="button" href="#stocks">All stocks</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="tiles" aria-label="Key figures">
+    {% for t in tiles %}
+    <div class="tile">
+      <div class="tile-label">{{ t.label }}</div>
+      <div class="tile-value">{{ t.value }}</div>
+      <div class="tile-note">{{ t.note }}</div>
+    </div>
+    {% endfor %}
+  </section>
+
+  <section>
+    <h2>Findings</h2>
+    <ul class="findings">
+      {% for f in findings %}<li>{{ f|safe }}</li>{% endfor %}
+    </ul>
+  </section>
+
+  <section id="results">
+    <h2>Do the signals predict returns?</h2>
+    {{ tables.tab_factor_tests|safe }}
+    <p class="note">IC = mean monthly rank information coefficient. Spread = top minus bottom tercile before costs. L/S net = long-short return after {{ cost_bps }} bps per trade and {{ borrow_bps }} bps p.a. lending fees; stars mark Newey–West significance at 10/5/1%. Holm p adjusts for six tests. PSR = probability that the true Sharpe ratio is above zero; DSR = the same against the best of {{ n_trials }} unskilled trials (Sharpe {{ sr_star }}).</p>
+    {{ fig("tercile_returns", "Average annual return of each tercile. A useful signal is a staircase from top to bottom.") }}
+    {{ fig("factor_long_short", "Long-short portfolios, growth of 100 before and after costs.") }}
+    <h3>Long-short portfolios after costs</h3>
+    {{ tables.tab_long_short|safe }}
+    {{ fig("rolling_ic", "Rolling two-year average of the monthly rank IC.") }}
+    {{ fig("factor_correlations", "Correlation of monthly long-short returns and the DAX.", "narrow") }}
+    <h3>Long only, against the DAX</h3>
+    {{ tables.tab_long_only|safe }}
+    {{ fig("composite_long_only", "Long-only composite against both benchmarks.") }}
+    <h3>Robustness</h3>
+    {{ fig("robustness", "Net Sharpe ratio of every long-short specification. All cells count as trials for the deflated Sharpe ratio.") }}
+    {{ fig("cost_sensitivity", "Sharpe ratio as a function of the one-way trading cost.") }}
+    <h3>Subperiods (Sharpe / CAGR)</h3>
+    {{ tables.tab_subperiods|safe }}
+    <h3>Live out-of-sample record since {{ freeze_date }}</h3>
+    {{ tables.tab_live|safe }}
+  </section>
+
+  <section id="market">
+    <h2>The market: DAX vs S&amp;P 500</h2>
+    {{ tables.tab_benchmarks|safe }}
+    {{ fig("index_growth", "Total return in euros and drawdowns.") }}
+    {{ fig("rolling_risk", "Rolling one-year volatility and three-year correlation.") }}
+    {{ fig("calendar_returns", "Calendar-year returns.") }}
+    {{ fig("dax_monthly_heatmap", "Every monthly DAX return.") }}
+    {{ fig("dax_distribution", "Daily DAX returns against a normal distribution.") }}
+    <h3>Calendar-year returns</h3>
+    {{ tables.tab_calendar|safe }}
+  </section>
+
+  <section id="data">
+    <h2>Data and universe</h2>
+    {{ fig("coverage", "DAX members and members with usable price data.") }}
+    {{ fig("survivorship", "Equal-weight portfolios: actual members vs today's members back-filled.") }}
+    <h3>Members without free price data</h3>
+    {{ tables.tab_missing|safe }}
+    <h3>Data-quality corrections</h3>
+    {{ tables.tab_quality|safe }}
+  </section>
+
+  <section id="stocks">
+    <h2>Every constituent</h2>
+    {{ fig("stocks_risk_return", "Return and volatility of each stock while it was in the DAX.") }}
+    <p class="note">Statistics cover only the days a stock was in the index. † = no longer a member.</p>
+    {{ tables.tab_stocks|safe }}
+  </section>
+
+  {% if has_pdf %}
+  <section>
+    <h2>The paper</h2>
+    <object class="pdf" data="report.pdf" type="application/pdf" aria-label="Research paper">
+      <p><a href="report.pdf">Download the PDF</a>.</p>
+    </object>
+  </section>
+  {% endif %}
+</main>
+
+<footer class="wrap">
+  <p>Prices: Yahoo Finance (adjusted closes). Risk-free rate: FRED {{ rf_series }}. Index changes: Wikipedia list of DAX changes, verified to give 30 members before 20 Sep 2021 and 40 after. Specification frozen {{ freeze_date }}. Built {{ meta.downloaded_utc }} UTC.</p>
+  <p>This is research, not investment advice.</p>
+</footer>
+</body>
+</html>
