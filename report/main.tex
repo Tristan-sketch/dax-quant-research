@@ -10,7 +10,7 @@
 \usepackage[font=small,labelfont=bf,skip=4pt]{caption}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
-\usepackage{float}
+\usepackage[section]{placeins}
 \usepackage[round]{natbib}
 \usepackage{adjustbox}
 
@@ -18,9 +18,9 @@
 \input{generated/macros.tex}
 
 \newcommand{\fig}[3][\linewidth]{%
-  \begin{figure}[H]\centering\includegraphics[width=#1]{#2}\caption{#3}\label{fig:#2}\end{figure}}
+  \begin{figure}[htbp]\centering\includegraphics[width=#1]{#2}\caption{#3}\label{fig:#2}\end{figure}}
 \newcommand{\tabfile}[3]{%
-  \begin{table}[H]\centering\caption{#2}\label{tab:#1}\small\begin{adjustbox}{max width=\linewidth}\input{generated/#1.tex}\end{adjustbox}\par\smallskip
+  \begin{table}[htbp]\centering\caption{#2}\label{tab:#1}\small\begin{adjustbox}{max width=\linewidth}\input{generated/#1.tex}\end{adjustbox}\par\smallskip
   \begin{minipage}{\linewidth}\footnotesize #3\end{minipage}\end{table}}
 
 \title{\textbf{Factor Premia in the DAX}\\[2pt]\large A point-in-time study of German large caps, benchmarked against the S\&P\,500}
@@ -197,7 +197,7 @@ The specification in \texttt{config.py} was frozen on \FreezeDate. Every observa
 unknown when the study was designed, so this table is the only clean test. It grows with each data
 update.
 
-\begin{table}[H]\centering\small\input{generated/tab_live.tex}\end{table}
+\begin{table}[htbp]\centering\small\input{generated/tab_live.tex}\end{table}
 
 \section{Conclusion}
 Inside the DAX, simple price-based factors behave much like the literature predicts in direction, but the
@@ -213,7 +213,7 @@ quality), because point-in-time fundamentals are not freely available.
 
 \appendix
 \section{Calendar-year returns}
-\begin{table}[H]\centering\small\input{generated/tab_calendar.tex}\end{table}
+\begin{table}[htbp]\centering\small\input{generated/tab_calendar.tex}\end{table}
 
 \section{Every constituent}
 \fig{stocks_risk_return}{Annualised return and volatility of each stock while it was a DAX member,
